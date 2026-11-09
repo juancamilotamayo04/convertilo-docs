@@ -1,0 +1,18 @@
+# Render.com: servidor de documentos de Convertilo en el plan gratis.
+services:
+  - type: web
+    name: convertilo-docs
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      # El plan gratis tiene 512 MB de memoria: una conversión a la vez.
+      - key: MAX_PARALLEL
+        value: "1"
+      - key: MAX_MB
+        value: "50"
+      - key: ALLOWED_ORIGINS
+        value: https://convertilo.pages.dev
